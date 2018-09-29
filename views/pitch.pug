@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  .single
+    .single__hero
+      h2.title.title--single
+        a(href=`/pitch/${pitch.slug}`) #{pitch.title}
+
+    .single__details.inner
+      p #{pitch.description}

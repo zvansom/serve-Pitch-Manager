@@ -31,3 +31,12 @@ exports.updatePitch = async (req, res) => {
    req.flash('success', `Successfully updated <strong>${pitch.title}</strong> <a href="pitches/$pitch.slug}">View Pitch </a> `)
    res.redirect(`/pitches/${pitch._id}/edit`);
 }
+
+// ! WHEN TRANSITION TO DECOUPLED:
+// ! Remove the catch for !pitch. Send null response to AJAX
+// ! Handle null condition client side
+exports.getPitchBySlug = async (req, res, next) => {
+  const pitch = await Pitch.findOne({ slug: req.params.slug })
+  if (!pitch) return next();
+  res.render('pitch', { title: pitch.title, pitch})
+}
