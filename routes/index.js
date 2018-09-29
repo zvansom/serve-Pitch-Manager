@@ -17,5 +17,6 @@ router.post('/add', catchErrors(pitchController.createPitch));
 router.post('/add/:id', catchErrors(pitchController.updatePitch));
 
 router.get('/login', userController.loginForm);
+router.get('/register', userController.registerForm);
 
 module.exports = router;
