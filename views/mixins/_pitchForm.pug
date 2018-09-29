@@ -1,7 +1,7 @@
 mixin pitchForm(pitch = {})
-  form(action='/add' method='POST' class='card')
+  form(action=`/add/${pitch._id || ''}` method='POST' class='card')
     label(for="title") Title
-    input(type="text" id="title" name="title" required)
+    input(type="text" id="title" name="title" value=pitch.title required)
     label(for="description") Description
-    textarea(id="description" name="description")
+    textarea(id="description" name="description")= pitch.description
     input(type="submit" class="button" value="Save 💾")

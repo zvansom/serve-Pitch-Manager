@@ -2,7 +2,8 @@ mixin pitchCard(pitch = {})
   .store
     .store__hero
       .store__actions
-        button soon
+        .store__actions.store__action--edit
+          a(href=`/pitches/${pitch._id}/edit`) Edit
       h2.title
         a(href=`/pitch/${pitch.slug}`) #{pitch.title}
     .store__details
