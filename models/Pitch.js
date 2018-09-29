@@ -13,6 +13,10 @@ const pitchSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  created: {
+    type: Date,
+    default: Date.now,
+  }
 });
 
 pitchSchema.pre('save', function(next) {
