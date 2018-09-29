@@ -21,7 +21,6 @@ router.get('/login', userController.loginForm);
 router.post('/login', authController.login);
 
 router.get('/register', userController.registerForm);
-
 // 1. Validate the registration data
 // 2. Register the user
 // 3. Log the user in
@@ -32,5 +31,8 @@ router.post('/register',
 );
 
 router.get('/logout', authController.logout);
+
+router.get('/account', authController.isLoggedIn, userController.account);
+router.post('/account', catchErrors(userController.updateAccount));
 
 module.exports = router;
