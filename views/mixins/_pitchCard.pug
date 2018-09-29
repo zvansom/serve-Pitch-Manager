@@ -1,0 +1,9 @@
+mixin pitchCard(pitch = {})
+  .store
+    .store__hero
+      .store__actions
+        button soon
+      h2.title
+        a(href=`/pitch/${pitch.slug}`) #{pitch.title}
+    .store__details
+      p= pitch.description.split(' ').slice(0, 25).join(' ')

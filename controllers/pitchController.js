@@ -12,5 +12,11 @@ exports.addPitch = (req, res) => {
 exports.createPitch = async (req, res) => {
   const pitch = await (new Pitch(req.body)).save();
   req.flash('success', `Created ${pitch.title}.`);
-  res.redirect(`/store/${pitch.slug}`);
+  res.redirect(`/pitch/${pitch.slug}`);
+}
+
+exports.getPitches = async (req, res) => {
+  const pitches = await Pitch.find()
+  console.log(pitches);
+  res.render('pitches', { title: 'Pitches', pitches });
 }
