@@ -1,0 +1,9 @@
+extends layout
+
+include mixins/_pitchCard
+
+block content
+  .inner
+    h2= title
+    each pitch in pitches
+      +pitchCard(pitch)
