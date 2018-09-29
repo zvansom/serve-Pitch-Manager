@@ -1,0 +1,7 @@
+mixin pitchForm(pitch = {})
+  form(action='/add' method='POST' class='card')
+    label(for="title") Title
+    input(type="text" id="title" name="title")
+    label(for="description") Description
+    input(type="text" id="description" name="description")
+    input(type="submit" class="button")
