@@ -13,14 +13,15 @@ router.get('/pitches/:id/edit', catchErrors(pitchController.editPitch))
 
 router.get('/pitch/:slug', catchErrors(pitchController.getPitchBySlug) )
 
-router.get('/add', pitchController.addPitch);
+router.get('/add', authController.isLoggedIn, pitchController.addPitch);
 router.post('/add', catchErrors(pitchController.createPitch));
 router.post('/add/:id', catchErrors(pitchController.updatePitch));
 
 router.get('/login', userController.loginForm);
+router.post('/login', authController.login);
+
 router.get('/register', userController.registerForm);
 
-// TODO for register:
 // 1. Validate the registration data
 // 2. Register the user
 // 3. Log the user in
@@ -29,5 +30,7 @@ router.post('/register',
   userController.register,
   authController.login,
 );
+
+router.get('/logout', authController.logout);
 
 module.exports = router;
