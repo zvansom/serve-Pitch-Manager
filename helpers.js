@@ -16,3 +16,8 @@ exports.icon = (name) => fs.readFileSync(`./public/images/icons/${name}.svg`);
 
 // Some details about the site
 exports.siteName = `Pitch Manager`;
+
+exports.menu = [
+  { slug: '/pitches', title: 'Pitches', icon: 'store', },
+  { slug: '/add', title: 'Add', icon: 'add', },
+];
