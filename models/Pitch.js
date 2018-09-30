@@ -16,6 +16,11 @@ const pitchSchema = new mongoose.Schema({
   created: {
     type: Date,
     default: Date.now,
+  },
+  author: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: 'There must be an author.',
   }
 });
 
