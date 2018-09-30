@@ -2,8 +2,9 @@ mixin pitchCard(pitch = {})
   .store
     .store__hero
       .store__actions
-        .store__actions.store__action--edit
-          a(href=`/pitches/${pitch._id}/edit`) Edit
+        if user && pitch.author.equals(user._id)
+          .store__actions.store__action--edit
+            a(href=`/pitches/${pitch._id}/edit`) Edit
       h2.title
         a(href=`/pitch/${pitch.slug}`) #{pitch.title}
     .store__details
