@@ -21,7 +21,11 @@ const pitchSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'User',
     required: 'There must be an author.',
-  }
+  },
+  client: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Client',
+  },
 });
 
 pitchSchema.pre('save', async function(next) {
