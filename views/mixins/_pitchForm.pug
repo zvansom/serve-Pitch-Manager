@@ -1,4 +1,5 @@
 mixin pitchForm(pitch = {})
+  h2 Add a pitch
   form(action=`/add/${pitch._id || ''}` method='POST' class='card')
     label(for="title") Title
     input(type="text" id="title" name="title" value=pitch.title required)
