@@ -14,6 +14,10 @@ const helpers = require('./helpers');
 const errorHandlers = require('./handlers/errorHandlers');
 require('./handlers/passport');
 
+// GraphQL Dependencies
+const graphqlHTTP = require('express-graphql');
+const schema = require('./schema/schema');
+
 // create our Express app
 const app = express();
 
@@ -65,6 +69,12 @@ app.use((req, res, next) => {
   req.login = promisify(req.login, req);
   next();
 });
+
+// bind express with graphql
+app.use('/graphql', graphqlHTTP({
+  schema,
+  graphiql: true
+}));
 
 // After allllll that above middleware, we finally handle our own routes!
 app.use('/', routes);
