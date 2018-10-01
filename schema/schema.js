@@ -20,11 +20,10 @@ const PitchType = new GraphQLObjectType({
     slug: { type: GraphQLString },
     description: { type: GraphQLString },
     created: { type: GraphQLString },
-    authorId: {
+    user: {
       type: UserType,
       resolve(parent, args){
-        console.log('parent', parent)
-        return User.findById(parent.authorId);
+        return User.findById(parent.user);
       },
     },
   }),
@@ -39,8 +38,7 @@ const UserType = new GraphQLObjectType({
     pitches: {
       type: new GraphQLList(PitchType),
       resolve(parent, args){
-        console.log('parent id', parent.id);
-        return Pitch.find({ authorId: parent.id });
+        return Pitch.find({ user: parent.id });
       },
     },
   }),
