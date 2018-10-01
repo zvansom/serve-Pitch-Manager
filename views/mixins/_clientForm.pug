@@ -1,0 +1,10 @@
+mixin clientForm(client = {})
+  h2 Add a client
+  form(action=`/add-client/${client._id || ''}` method='POST' class='card')
+    label(for="title") Name
+    input(type="text" id="name" name="name" value=client.name required)
+    label(for="editor") Editor
+    input(id="editor" name="editor" value=client.editor)
+    label(for="email") email
+    input(id="email" name="email" value=client.email)
+    input(type="submit" class="button" value="Save 💾")

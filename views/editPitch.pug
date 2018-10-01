@@ -2,7 +2,9 @@ extends layout
 
 include mixins/_pitchForm
 
+include mixins/_clientForm
+
 block content
   .inner
-    h2= title
+    +clientForm(client)
     +pitchForm(pitch)
