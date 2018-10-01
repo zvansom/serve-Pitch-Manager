@@ -2,7 +2,7 @@ mixin pitchCard(pitch = {})
   .store
     .store__hero
       .store__actions
-        if user && pitch.author.equals(user._id)
+        if user && pitch.user.equals(user._id)
           .store__actions.store__action--edit
             a(href=`/pitches/${pitch._id}/edit`) Edit
       h2.title

@@ -6,7 +6,7 @@ exports.addPitch = (req, res) => {
 }
 
 exports.createPitch = async (req, res) => {
-  req.body.author = req.user._id;
+  req.body.user = req.user._id;
   const pitch = await (new Pitch(req.body)).save();
   req.flash('success', `Created ${pitch.title}.`);
   res.redirect(`/pitch/${pitch.slug}`);
@@ -18,7 +18,7 @@ exports.getPitches = async (req, res) => {
 }
 
 const confirmOwner = (pitch, user) => {
-  if (!pitch.author.equals(user._id)) {
+  if (!pitch.user.equals(user._id)) {
     throw Error('You must be the author of the pitch in order to edit it.');
   }
 };
