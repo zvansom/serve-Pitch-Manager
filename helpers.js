@@ -20,4 +20,5 @@ exports.siteName = `Pitch Manager`;
 exports.menu = [
   { slug: '/pitches', title: 'Pitches', icon: 'store', },
   { slug: '/add', title: 'Add', icon: 'add', },
+  { slug: '/graphql', title: 'GraphQL', icon: 'cog', },
 ];
