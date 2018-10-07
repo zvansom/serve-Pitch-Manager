@@ -5,4 +5,9 @@ mixin pitchForm(pitch = {})
     input(type="text" id="title" name="title" value=pitch.title required)
     label(for="description") Description
     textarea(id="description" name="description")= pitch.description
+    label(for="client") Client
+    select(id="client" name="client")
+      if clients.length > 0
+          each client in clients
+            option(value=`${client._id}`)= client.name
     input(type="submit" class="button" value="Save 💾")
