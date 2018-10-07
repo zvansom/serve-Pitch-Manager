@@ -12,6 +12,7 @@ const expressValidator = require('express-validator');
 const routes = require('./routes/index');
 const helpers = require('./helpers');
 const errorHandlers = require('./handlers/errorHandlers');
+const cors = require('cors');
 require('./handlers/passport');
 
 // GraphQL Dependencies
@@ -20,6 +21,9 @@ const schema = require('./schema/schema');
 
 // create our Express app
 const app = express();
+
+// Allow cross-origin
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views')); // this is the folder where we keep our pug files
