@@ -1,6 +1,7 @@
 const graphql = require('graphql');
 const Pitch = require('../models/Pitch');
 const User = require('../models/User');
+const Client = require('../models/Client');
 
 const {
   GraphQLObjectType,
@@ -9,8 +10,24 @@ const {
   GraphQLID,
   GraphQLInt,
   GraphQLList,
-  GraphQLNonNull
+  GraphQLNonNull,
 } = graphql;
+
+const ClientType = new GraphQLObjectType({
+  name: 'Client',
+  fields: ( ) => ({
+    id: { type: GraphQLID },
+    name: { type: GraphQLString },
+    editor: { type: GraphQLString },
+    email: { type: GraphQLString },
+    user: {
+      type: UserType,
+      resolve(parent, args){
+        return User.findById(parent.user);
+      },
+    },
+  }),
+});
 
 const PitchType = new GraphQLObjectType({
   name: 'Pitch',
@@ -24,6 +41,12 @@ const PitchType = new GraphQLObjectType({
       type: UserType,
       resolve(parent, args){
         return User.findById(parent.user);
+      },
+    },
+    client: {
+      type: ClientType,
+      resolve(parent, args){
+        return Client.findById(parent.client);
       },
     },
   }),
@@ -71,6 +94,12 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(UserType),
       resolve(parent, args){
         return User.find({});
+      },
+    },
+    clients: {
+      type: new GraphQLList(ClientType),
+      resolve(parent, args){
+        return Client.find({});
       },
     },
   },

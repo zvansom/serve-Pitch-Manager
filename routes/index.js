@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const clientController = require('../controllers/clientController');
 const pitchController = require('../controllers/pitchController');
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
@@ -15,7 +16,9 @@ router.get('/pitch/:slug', catchErrors(pitchController.getPitchBySlug) )
 
 router.get('/add', authController.isLoggedIn, pitchController.addPitch);
 router.post('/add', catchErrors(pitchController.createPitch));
+router.post('/add-client', catchErrors(clientController.createClient));
 router.post('/add/:id', catchErrors(pitchController.updatePitch));
+
 
 router.get('/login', userController.loginForm);
 router.post('/login', authController.login);

@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 const Pitch = mongoose.model('Pitch');
+const Client = mongoose.model('Client');
 
-exports.addPitch = (req, res) => {
-  res.render('editPitch', { title: 'Add a Pitch' })
+exports.addPitch = async (req, res) => {
+  const clients = await Client.find({ user: req.user._id });
+  res.render('editPitch', { title: 'Add a Pitch', clients })
 }
 
 exports.createPitch = async (req, res) => {
