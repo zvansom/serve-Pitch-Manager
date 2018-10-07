@@ -22,7 +22,7 @@ const ClientType = new GraphQLObjectType({
     email: { type: GraphQLString },
     user: {
       type: UserType,
-      resolve(parent, args){
+      resolve(parent, args) {
         return User.findById(parent.user);
       },
     },
@@ -39,13 +39,13 @@ const PitchType = new GraphQLObjectType({
     created: { type: GraphQLString },
     user: {
       type: UserType,
-      resolve(parent, args){
+      resolve(parent, args) {
         return User.findById(parent.user);
       },
     },
     client: {
       type: ClientType,
-      resolve(parent, args){
+      resolve(parent, args) {
         return Client.findById(parent.client);
       },
     },
@@ -60,7 +60,7 @@ const UserType = new GraphQLObjectType({
     name: { type: GraphQLString },
     pitches: {
       type: new GraphQLList(PitchType),
-      resolve(parent, args){
+      resolve(parent, args) {
         return Pitch.find({ user: parent.id });
       },
     },
@@ -102,9 +102,59 @@ const RootQuery = new GraphQLObjectType({
         return Client.find({});
       },
     },
+    client: {
+      type: ClientType,
+      args: { id: { type: GraphQLID } },
+      resolve(parent, args){
+        return Client.findById(args.id);
+      },
+    },
+  },
+});
+
+const Mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    addPitch: {
+      type: PitchType,
+      args: {
+        user: { type: new GraphQLNonNull(GraphQLID) },
+        title: { type: new GraphQLNonNull(GraphQLString) },
+        description: { type: GraphQLString },
+        client: { type: GraphQLID },
+      },
+      resolve(parent, args) {
+        let pitch = new Pitch({
+          user: args.user,
+          title: args.title,
+          description: args.description,
+          client: args.client
+        });
+        return pitch.save();
+      },
+    },
+    addClient: {
+      type: ClientType,
+      args: {
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        editor: { type: GraphQLString },
+        email: { type: GraphQLString },
+        user: { type: new GraphQLNonNull(GraphQLID) },
+      },
+      resolve(parent, args){
+        let client = new Client({
+          name: args.name,
+          editor: args.editor,
+          email: args.email,
+          user: args.user
+        });
+        return client.save();
+      },
+    },
   },
 });
 
 module.exports = new GraphQLSchema({
   query: RootQuery,
+  mutation: Mutation,
 });
