@@ -31,13 +31,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Exposes a bunch of methods for validating data. Used heavily on userController.validateRegister
 app.use(expressValidator());
 
-// pass variables to our templates + all requests
-// app.use((req, res, next) => {
-//   res.locals.h = helpers;
-//   res.locals.user = req.user || null;
-//   next();
-// });
-
 // Helper function for Auth
 function fromRequest(req) {
   if (req.body.headers.Authorization && 
@@ -58,6 +51,7 @@ app.use(expressJWT({
       { url: '/register', methods: ['POST'] },
       { url: '/account/forgot', methods: ['POST'] },
       { url: '/account/reset/:token', methods: ['POST'] },
+      { url: '/me/from/token', methods: ['POST'] },
     ],
 }));
 
