@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
-const promisify = require('es6-promisify');
+const jwt = require('jsonwebtoken');
 
 exports.loginForm = (req, res) => {
   res.render('login', { title: 'Login' });
@@ -11,6 +11,7 @@ exports.registerForm = (req, res) => {
 };
 
 exports.validateRegister = (req, res, next) => {
+  console.log('validate registration form');
   // All methods on req are set on req in App.js from expressValidator
   req.sanitizeBody('name');
   req.checkBody('name', 'You must supply a name.').notEmpty();
@@ -33,9 +34,10 @@ exports.validateRegister = (req, res, next) => {
 };
 
 exports.register = async (req, res, next) => {
-  const user = new User({ email: req.body.email, name: req.body.name });
-  const register = promisify(User.register, User);
-  await register(user, req.body.password);
+  console.log('registering new user');
+  const { email, name, password } = req.body;
+  const user = new User({ email, name, password });
+  const createdUser = await user.save();
   next();
 };
 

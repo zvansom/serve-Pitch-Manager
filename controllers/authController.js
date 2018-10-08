@@ -1,16 +1,31 @@
-const passport = require('passport');
+const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const promisify = require('es6-promisify');
 const mail = require('../handlers/mail');
 
-exports.login = passport.authenticate('local', {
-  failureRedirect: '/login',
-  failureFlash: 'Failed Login',
-  successRedirect: '/',
-  successFlash: 'You are logged in',
-});
+exports.login = async (req, res) => {
+  console.log('logging in user:');
+  console.log(req.body);
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  // No user found
+  if(!user || !user.password) { 
+    return res.status(403).send('User not found'); }
+
+  // Validate user
+  if(!user.authenticated(password)) {
+    return res.status(401).send('Invalid Credentials.'); }
+
+  // Valid user
+  const token = jwt.sign(user.toJSON(), process.env.JWT_SECRET, {
+    expiresIn: 60 * 60 * 24, // Expires in 24 hours
+  });
+
+  // Send token and user
+  res.send({ token });
+}
 
 exports.logout = (req, res) => {
   req.logout();
@@ -48,6 +63,11 @@ exports.forgot = async (req, res) => {
   req.flash('success', `A password reset has been emailed.`)
   // 4. Redirect to login page
   res.redirect('/login');
+};
+
+exports.validateToken = async (req, res) => {
+  const user = await User.findById(req.user.id);
+    res.send({ user });
 };
 
 exports.reset = async (req, res) => {
