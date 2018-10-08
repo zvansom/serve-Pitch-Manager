@@ -18,7 +18,7 @@ exports.login = async (req, res) => {
   if(!user.authenticated(password)) {
     return res.status(401).send('Invalid Credentials.'); }
 
-  // Valid user
+  // Valid user, give them a token
   const token = jwt.sign(user.toJSON(), process.env.JWT_SECRET, {
     expiresIn: 60 * 60 * 24, // Expires in 24 hours
   });
@@ -26,6 +26,11 @@ exports.login = async (req, res) => {
   // Send token and user
   res.send({ token });
 }
+
+exports.validateToken = async (req, res) => {
+  const user = await User.findById(req.user.id);
+  res.send({ user });
+};
 
 exports.logout = (req, res) => {
   req.logout();
@@ -63,11 +68,6 @@ exports.forgot = async (req, res) => {
   req.flash('success', `A password reset has been emailed.`)
   // 4. Redirect to login page
   res.redirect('/login');
-};
-
-exports.validateToken = async (req, res) => {
-  const user = await User.findById(req.user.id);
-    res.send({ user });
 };
 
 exports.reset = async (req, res) => {

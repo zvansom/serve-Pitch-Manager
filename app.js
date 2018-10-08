@@ -42,7 +42,7 @@ function fromRequest(req) {
 
 // JWT 
 app.use(expressJWT({
-    secret: 'test this secret',
+    secret: process.env.JWT_SECRET,
     getToken: fromRequest,
   })
   .unless({
@@ -51,7 +51,6 @@ app.use(expressJWT({
       { url: '/register', methods: ['POST'] },
       { url: '/account/forgot', methods: ['POST'] },
       { url: '/account/reset/:token', methods: ['POST'] },
-      { url: '/me/from/token', methods: ['POST'] },
     ],
 }));
 
@@ -70,7 +69,7 @@ app.use(errorHandlers.notFound);
 // One of our error handlers will see if these errors are just validation errors
 app.use(errorHandlers.flashValidationErrors);
 
-// Otherwise this was a really bad error we didn't expect! Shoot eh
+// Otherwise this was a really bad error we didn't expect!
 if (app.get('env') === 'development') {
   /* Development Error Handler - Prints stack trace */
   app.use(errorHandlers.developmentErrors);
@@ -79,5 +78,4 @@ if (app.get('env') === 'development') {
 // production error handler
 app.use(errorHandlers.productionErrors);
 
-// done! we export it so we can start the site in start.js
 module.exports = app;
