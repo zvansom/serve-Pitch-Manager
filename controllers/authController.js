@@ -6,8 +6,6 @@ const promisify = require('es6-promisify');
 const mail = require('../handlers/mail');
 
 exports.login = async (req, res) => {
-  console.log('logging in user:');
-  console.log(req.body);
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   // No user found

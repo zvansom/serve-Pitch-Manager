@@ -11,7 +11,6 @@ exports.registerForm = (req, res) => {
 };
 
 exports.validateRegister = (req, res, next) => {
-  console.log('validate registration form');
   // All methods on req are set on req in App.js from expressValidator
   req.sanitizeBody('name');
   req.checkBody('name', 'You must supply a name.').notEmpty();
@@ -34,7 +33,6 @@ exports.validateRegister = (req, res, next) => {
 };
 
 exports.register = async (req, res, next) => {
-  console.log('registering new user');
   const { email, name, password } = req.body;
   const user = new User({ email, name, password });
   const createdUser = await user.save();
