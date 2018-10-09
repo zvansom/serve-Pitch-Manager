@@ -1,14 +1,5 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
-const jwt = require('jsonwebtoken');
-
-exports.loginForm = (req, res) => {
-  res.render('login', { title: 'Login' });
-};
-
-exports.registerForm = (req, res) => {
-  res.render('register', { title: 'Register' });
-};
 
 exports.validateRegister = (req, res, next) => {
   // All methods on req are set on req in App.js from expressValidator
@@ -35,24 +26,20 @@ exports.validateRegister = (req, res, next) => {
 exports.register = async (req, res, next) => {
   const { email, name, password } = req.body;
   const user = new User({ email, name, password });
-  const createdUser = await user.save();
+  await user.save();
   next();
 };
 
-exports.account = (req, res) => {
-  res.render('account', { title: 'Edit Your Account' });
-}
-
-exports.updateAccount = async (req, res) => {
-  const updates = {
-    name: req.body.name,
-    email: req.body.email,
-  };
-  const user = await User.findOneAndUpdate(
-    { _id: req.user._id },
-    { $set: updates },
-    { new: true, runValidators: true, context: 'query' },
-  );
-  req.flash('success', 'Updated your profile');
-  res.redirect('/');
-};
+// For future versions
+// exports.updateAccount = async (req, res) => {
+//   const updates = {
+//     name: req.body.name,
+//     email: req.body.email,
+//   };
+//   const user = await User.findOneAndUpdate(
+//     { _id: req.user._id },
+//     { $set: updates },
+//     { new: true, runValidators: true, context: 'query' },
+//   );
+//   res.send({ user })
+// };

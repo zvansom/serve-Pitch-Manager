@@ -6,7 +6,7 @@ const { catchErrors } = require('../handlers/errorHandlers')
 
 router.post('/login', authController.login);
 router.post('/register', 
-  userController.validateRegister,
+  userController.validateRegister, // ? Is this doing anything for me?  Client side validation might make more sense.
   catchErrors(userController.register),
   catchErrors(authController.login),
 );
