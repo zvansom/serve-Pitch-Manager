@@ -4,7 +4,7 @@ const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 const { catchErrors } = require('../handlers/errorHandlers')
 
-router.post('/login', authController.login);
+router.post('/login', catchErrors(authController.login));
 router.post('/register', 
   userController.validateRegister, // ? Is this doing anything for me?  Client side validation might make more sense.
   catchErrors(userController.register),
