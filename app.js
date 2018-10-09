@@ -6,7 +6,6 @@ const expressValidator = require('express-validator');
 const graphqlHTTP = require('express-graphql');
 const path = require('path');
 
-const errorHandlers = require('./handlers/errorHandlers');
 const routes = require('./routes/index');
 const schema = require('./schema/schema');
 
@@ -51,6 +50,7 @@ app.use(expressJWT({
       { url: '/register', methods: ['POST'] },
       { url: '/account/forgot', methods: ['POST'] },
       { url: '/account/reset/:token', methods: ['POST'] },
+      { url: '/graphql' }, // ! REMOVE FOR PRODUCTION BUILD
     ],
 }));
 
@@ -62,20 +62,5 @@ app.use('/graphql', graphqlHTTP({
 
 // After allllll that above middleware, we finally handle our own routes!
 app.use('/', routes);
-
-// If that above routes didnt work, we 404 them and forward to error handler
-app.use(errorHandlers.notFound);
-
-// One of our error handlers will see if these errors are just validation errors
-app.use(errorHandlers.flashValidationErrors);
-
-// Otherwise this was a really bad error we didn't expect!
-if (app.get('env') === 'development') {
-  /* Development Error Handler - Prints stack trace */
-  app.use(errorHandlers.developmentErrors);
-}
-
-// production error handler
-app.use(errorHandlers.productionErrors);
 
 module.exports = app;
