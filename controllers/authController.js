@@ -1,9 +1,8 @@
 const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
 const mongoose = require('mongoose');
+
+// Require models
 const User = mongoose.model('User');
-const promisify = require('es6-promisify');
-const mail = require('../handlers/mail');
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
