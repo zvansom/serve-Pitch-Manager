@@ -1,4 +1,6 @@
 const graphql = require('graphql');
+
+// Require all models
 const Pitch = require('../models/Pitch');
 const User = require('../models/User');
 const Client = require('../models/Client');
@@ -62,6 +64,12 @@ const UserType = new GraphQLObjectType({
       type: new GraphQLList(PitchType),
       resolve(parent, args) {
         return Pitch.find({ user: parent.id });
+      },
+    },
+    clients: {
+      type: new GraphQLList(ClientType),
+      resolve(parent, args) {
+        return Client.find({ user: parent.id });
       },
     },
   }),
