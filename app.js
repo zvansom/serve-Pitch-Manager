@@ -50,7 +50,7 @@ app.use(expressJWT({
       { url: '/register', methods: ['POST'] },
       { url: '/account/forgot', methods: ['POST'] },
       { url: '/account/reset/:token', methods: ['POST'] },
-      { url: '/graphql' }, // ! REMOVE FOR PRODUCTION BUILD
+      // { url: '/graphql' }, // ! REMOVE FOR PRODUCTION BUILD
     ],
 }));
 
