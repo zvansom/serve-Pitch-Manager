@@ -156,13 +156,17 @@ const Mutation = new GraphQLObjectType({
         editor: { type: GraphQLString },
         email: { type: GraphQLString },
         user: { type: new GraphQLNonNull(GraphQLID) },
+        editingNotes: { type: GraphQLString },
+        invoicingNotes: { type: GraphQLString },
       },
       resolve(parent, args){
         let client = new Client({
           name: args.name,
           editor: args.editor,
           email: args.email,
-          user: args.user
+          user: args.user,
+          editingNotes: args.editingNotes,
+          invoicingNotes: args.invoicingNotes,
         });
         return client.save();
       },
