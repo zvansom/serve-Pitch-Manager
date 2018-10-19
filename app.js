@@ -50,7 +50,7 @@ app.use(expressJWT({
       { url: '/register', methods: ['POST'] },
       { url: '/account/forgot', methods: ['POST'] },
       { url: '/account/reset/:token', methods: ['POST'] },
-      // { url: '/graphql' }, // ! REMOVE FOR PRODUCTION BUILD
+      { url: '/graphql' }, // ! REMOVE FOR PRODUCTION BUILD
     ],
 }));
 
@@ -60,7 +60,6 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true
 }));
 
-// After allllll that above middleware, we finally handle our own routes!
 app.use('/', routes);
 
 module.exports = app;

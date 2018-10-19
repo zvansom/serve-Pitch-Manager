@@ -24,7 +24,7 @@ exports.validateRegister = (req, res, next) => {
 };
 
 exports.register = async (req, res, next) => {
-  const { email, name, password } = req.body;
+  const { email, name, password } = req.body; // ? Is there something on body I don't need passed through?
   const user = new User({ email, name, password });
   await user.save();
   next();
