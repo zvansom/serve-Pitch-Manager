@@ -152,6 +152,15 @@ const Mutation = new GraphQLObjectType({
         return Pitch.findByIdAndDelete(args.id)
       }
     },
+    deleteClient: {
+      type: ClientType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+      },
+      resolve(parent, args) {
+        return Client.findByIdAndDelete(args.id)
+      }
+    },
     addClient: {
       type: ClientType,
       args: {
