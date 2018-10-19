@@ -50,6 +50,7 @@ const PitchType = new GraphQLObjectType({
         return Client.findById(parent.client);
       },
     },
+    status: { type: GraphQLString },
   }),
 });
 
@@ -129,13 +130,15 @@ const Mutation = new GraphQLObjectType({
         title: { type: new GraphQLNonNull(GraphQLString) },
         description: { type: GraphQLString },
         client: { type: GraphQLID },
+        status: { type: GraphQLString },
       },
       resolve(parent, args) {
         let pitch = new Pitch({
           user: args.user,
           title: args.title,
           description: args.description,
-          client: args.client
+          client: args.client,
+          status: args.status,
         });
         return pitch.save();
       },
