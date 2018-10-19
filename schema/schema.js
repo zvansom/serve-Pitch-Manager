@@ -36,7 +36,6 @@ const PitchType = new GraphQLObjectType({
   fields: ( ) => ({
     id: { type: GraphQLID },
     title: { type: GraphQLString },
-    slug: { type: GraphQLString },
     description: { type: GraphQLString },
     created: { type: GraphQLString },
     user: {
@@ -140,6 +139,15 @@ const Mutation = new GraphQLObjectType({
         });
         return pitch.save();
       },
+    },
+    deletePitch: {
+      type: PitchType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+      },
+      resolve(parent, args) {
+        return Pitch.findByIdAndDelete(args.id)
+      }
     },
     addClient: {
       type: ClientType,
