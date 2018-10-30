@@ -22,6 +22,14 @@ const clientSchema = new mongoose.Schema({
     ref: 'User',
     required: 'There must be an user.',
   },
+  editingNotes: {
+    type: String,
+    trim: true,
+  },
+  invoicingNotes: {
+    type: String,
+    trim: true,
+  },
 });
 
 module.exports = mongoose.model('Client', clientSchema);

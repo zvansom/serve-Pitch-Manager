@@ -36,7 +36,6 @@ const PitchType = new GraphQLObjectType({
   fields: ( ) => ({
     id: { type: GraphQLID },
     title: { type: GraphQLString },
-    slug: { type: GraphQLString },
     description: { type: GraphQLString },
     created: { type: GraphQLString },
     user: {
@@ -51,6 +50,7 @@ const PitchType = new GraphQLObjectType({
         return Client.findById(parent.client);
       },
     },
+    status: { type: GraphQLString },
   }),
 });
 
@@ -130,16 +130,36 @@ const Mutation = new GraphQLObjectType({
         title: { type: new GraphQLNonNull(GraphQLString) },
         description: { type: GraphQLString },
         client: { type: GraphQLID },
+        status: { type: GraphQLString },
       },
       resolve(parent, args) {
         let pitch = new Pitch({
           user: args.user,
           title: args.title,
           description: args.description,
-          client: args.client
+          client: args.client,
+          status: args.status,
         });
         return pitch.save();
       },
+    },
+    deletePitch: {
+      type: PitchType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+      },
+      resolve(parent, args) {
+        return Pitch.findByIdAndDelete(args.id)
+      }
+    },
+    deleteClient: {
+      type: ClientType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+      },
+      resolve(parent, args) {
+        return Client.findByIdAndDelete(args.id)
+      }
     },
     addClient: {
       type: ClientType,
@@ -148,13 +168,17 @@ const Mutation = new GraphQLObjectType({
         editor: { type: GraphQLString },
         email: { type: GraphQLString },
         user: { type: new GraphQLNonNull(GraphQLID) },
+        editingNotes: { type: GraphQLString },
+        invoicingNotes: { type: GraphQLString },
       },
       resolve(parent, args){
         let client = new Client({
           name: args.name,
           editor: args.editor,
           email: args.email,
-          user: args.user
+          user: args.user,
+          editingNotes: args.editingNotes,
+          invoicingNotes: args.invoicingNotes,
         });
         return client.save();
       },
